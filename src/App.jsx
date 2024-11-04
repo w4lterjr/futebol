@@ -1,62 +1,62 @@
-import './App.css';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
-const Brasileirao = () => {
-  const [times, setTimes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const ClassificacaoBrasileirao = () => {
+    const [classificacao, setClassificacao] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-      let isMounted = true; // track mounted state
+    useEffect(() => {
+        const fetchClassificacao = async () => {
+            const API_URL = 'https://api.api-futebol.com.br/v1/campeonatos/2/tabela';
+            const API_KEY = 'live_d76b283a35308de2bde30f54c97d05'; // Substitua pela sua chave
 
-      const fetchData = async () => {
-          try {
-              const response = await axios.get('https://api.football-data.org/v2/competitions/BRA/teams', {
-                  headers: {
-                      'X-Auth-Token': '9c58ca0dcc864d889351f2daeff19619' // Use environment variable
-                  }
-              });
-              if (isMounted) {
-                  setTimes(response.data.teams);
-              }
-          } catch (error) {
-              if (isMounted) {
-                  console.error('Error fetching data:', error);
-                  setError('Erro ao carregar os times.');
-              }
-          } finally {
-              if (isMounted) {
-                  setLoading(false);
-              }
-          }
-      };
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                    },
+                });
 
-      fetchData();
+                if (!response.ok) throw new Error('Erro ao buscar dados!');
+                const data = await response.json();
+                setClassificacao(data.tabela); // A tabela geralmente está em data.tabela
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-      return () => {
-          isMounted = false; // cleanup function to prevent memory leaks
-      };
-  }, []);
+        fetchClassificacao();
+    }, []);
 
-  if (loading) {
-      return <div>Carregando...</div>;
-  }
+    if (loading) return <p>Carregando...</p>;
+    if (error) return <p>{error}</p>;
 
-  if (error) {
-      return <div>{error}</div>;
-  }
-
-  return (
-      <div>
-          <h1>Brasileirão</h1>
-          <ul>
-              {times.map((time) => (
-                  <li key={time.id}>{time.name}</li>
-              ))}
-          </ul>
-      </div>
-  );
+    return (
+        <div>
+            <h1>Classificação do Brasileirão</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Time</th>
+                        <th>Pontos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {classificacao.map((time) => (
+                        <tr key={time.time.id}>
+                            <td>{time.posicao}</td>
+                            <td>{time.time.nome}</td>
+                            <td>{time.pontos}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 };
 
-export default Brasileirao;
+export default ClassificacaoBrasileirao;
