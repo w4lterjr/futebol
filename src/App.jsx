@@ -1,62 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const ClassificacaoBrasileirao = () => {
-    const [classificacao, setClassificacao] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+const App = () => {
+  const [goldPrice, setGoldPrice] = useState(null);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchClassificacao = async () => {
-            const API_URL = 'https://api.api-futebol.com.br/v1/campeonatos/2/tabela';
-            const API_KEY = 'live_d76b283a35308de2bde30f54c97d05'; // Substitua pela sua chave
+  const API_KEY = "DB733HKBEESQB8KO";  // Substitua pela sua chave da Alpha Vantage
 
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${API_KEY}`,
-                    },
-                });
+  useEffect(() => {
+    // Função para buscar o preço do ouro (XAU/USD)
+    const fetchGoldPrice = async () => {
+      try {
+        const response = await axios.get("https://www.alphavantage.co/query", {
+          params: {
+            function: "TIME_SERIES_DAILY",
+            symbol: "XAUUSD", // Ouro em relação ao dólar
+            interval: "1day",
+            apikey: API_KEY,
+          },
+        });
 
-                if (!response.ok) throw new Error('Erro ao buscar dados!');
-                const data = await response.json();
-                setClassificacao(data.tabela); // A tabela geralmente está em data.tabela
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+        const latestGoldData = response.data["Time Series (Daily)"];
+        if (latestGoldData) {
+          const latestDate = Object.keys(latestGoldData)[0]; // Última data disponível
+          const price = latestGoldData[latestDate]["4. close"];
+          setGoldPrice(price); // Armazenar o preço do ouro
+        }
+      } catch (error) {
+        setError("Erro ao buscar dados de ouro.");
+      }
+    };
 
-        fetchClassificacao();
-    }, []);
+    // Chamar a função para pegar o preço do ouro
+    fetchGoldPrice();
+  }, []);
 
-    if (loading) return <p>Carregando...</p>;
-    if (error) return <p>{error}</p>;
-
-    return (
-        <div>
-            <h1>Classificação do Brasileirão</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Posição</th>
-                        <th>Time</th>
-                        <th>Pontos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {classificacao.map((time) => (
-                        <tr key={time.time.id}>
-                            <td>{time.posicao}</td>
-                            <td>{time.time.nome}</td>
-                            <td>{time.pontos}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+  return (
+    <div className="App">
+      <h1>Preço do Ouro (XAU/USD)</h1>
+      {error && <p>{error}</p>}
+      <div>
+        {goldPrice ? <p>${goldPrice}</p> : <p>Carregando...</p>}
+      </div>
+    </div>
+  );
 };
 
-export default ClassificacaoBrasileirao;
+export default App;
