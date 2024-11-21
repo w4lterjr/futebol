@@ -1,47 +1,60 @@
-// pages/index.js ou no seu componente React
+// src/Classificacao.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const App = () => {
-  const [price, setPrice] = useState(null);
+const Classificacao = () => {
+  const [classificacao, setClassificacao] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Usando o símbolo Brent Crude
-  const API_KEY = "JP6LD99KF6S3VMAV";
-  const SYMBOL = 'BRENT'; // Aqui é onde usamos o símbolo do Brent Crude
+  const API_KEY = '9c58ca0dcc864d889351f2daeff19619'; // Substitua pela sua chave de API
+  const LEAGUE_ID = 71; // Campeonato Brasileiro é o ID 71 na Football-Data.org
 
   useEffect(() => {
-    const fetchPetroleoPrice = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&apikey=${API_KEY}`
-        );
-        
-        const data = response.data["Time Series (Daily)"];
-        const latestDate = Object.keys(data)[0];
-        const latestPrice = data[latestDate]["4. close"];
-        
-        setPrice(latestPrice);
+    axios.get(`https://api.football-data.org/v4/competitions/${LEAGUE_ID}/standings`, {
+      headers: { 'X-Auth-Token': API_KEY },
+    })
+      .then(response => {
+        setClassificacao(response.data.standings[0].table); // A estrutura da API retorna um array dentro de 'standings'
         setLoading(false);
-      } catch (err) {
-        setError('Erro ao buscar os dados.');
+      })
+      .catch(err => {
+        setError('Erro ao carregar dados');
         setLoading(false);
-      }
-    };
+      });
+  }, []);
 
-    fetchPetroleoPrice();
-  }, [API_KEY, SYMBOL]); // Dependência do símbolo Brent
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
-    <div className="App">
-      <h1>Cotação do Petróleo Brent</h1>
-      {loading && <p>Carregando...</p>}
-      {error && <p>{error}</p>}
-      {price && <p>Preço do Petróleo (Brent): ${price}</p>}
+    <div>
+      <h1>Classificação Campeonato Brasileiro</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Posição</th>
+            <th>Time</th>
+            <th>Pontos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {classificacao.map((time, index) => (
+            <tr key={time.team.id}>
+              <td>{index + 1}</td>
+              <td>{time.team.name}</td>
+              <td>{time.points}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
 
-export default App;
+export default Classificacao;
