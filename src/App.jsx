@@ -1,49 +1,47 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const App = () => {
-  const [goldPrice, setGoldPrice] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_KEY = "DB733HKBEESQB8KO";  // Substitua pela sua chave da Alpha Vantage
+  // Substitua com a sua chave da Alpha Vantage
+  const API_KEY = 'JP6LD99KF6S3VMAV';
+  const SYMBOL = 'WTI'; // WTI é o petróleo West Texas Intermediate
 
   useEffect(() => {
-    // Função para buscar o preço do ouro (XAU/USD)
-    const fetchGoldPrice = async () => {
+    const fetchPetroleoPrice = async () => {
       try {
-        const response = await axios.get("https://www.alphavantage.co/query", {
-          params: {
-            function: "TIME_SERIES_DAILY",
-            symbol: "XAUUSD", // Ouro em relação ao dólar
-            interval: "1day",
-            apikey: API_KEY,
-          },
-        });
-
-        const latestGoldData = response.data["Time Series (Daily)"];
-        if (latestGoldData) {
-          const latestDate = Object.keys(latestGoldData)[0]; // Última data disponível
-          const price = latestGoldData[latestDate]["4. close"];
-          setGoldPrice(price); // Armazenar o preço do ouro
-        }
-      } catch (error) {
-        setError("Erro ao buscar dados de ouro.");
+        setLoading(true);
+        const response = await axios.get(
+          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${SYMBOL}&apikey=${API_KEY}`
+        );
+        
+        const data = response.data["Time Series (Daily)"];
+        const latestDate = Object.keys(data)[0];
+        const latestPrice = data[latestDate]["4. close"];
+        
+        setPrice(latestPrice);
+        setLoading(false);
+      } catch (err) {
+        setError('Erro ao buscar os dados.');
+        setLoading(false);
       }
     };
 
-    // Chamar a função para pegar o preço do ouro
-    fetchGoldPrice();
+    fetchPetroleoPrice();
   }, []);
 
   return (
     <div className="App">
-      <h1>Preço do Ouro (XAU/USD)</h1>
+      <h1>Cotação do Petróleo</h1>
+      {loading && <p>Carregando...</p>}
       {error && <p>{error}</p>}
-      <div>
-        {goldPrice ? <p>${goldPrice}</p> : <p>Carregando...</p>}
-      </div>
+      {price && <p>Preço do Petróleo (WTI): ${price}</p>}
     </div>
   );
-};
+}
 
 export default App;
