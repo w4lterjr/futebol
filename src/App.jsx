@@ -38,14 +38,19 @@ function App() {
         </thead>
         <tbody>
           {classificacao.map((time) => {
-            const isTopFour = time.posicao <= 4;
-            const isBottomFour = time.posicao >= 17;
+            let className = '';
+            
+            // Definindo as classes para os times
+            if (time.posicao <= 4) {
+              className = styles.topFour; // Azul para os 4 primeiros
+            } else if (time.posicao >= 17) {
+              className = styles.bottomFour; // Vermelho para os 4 últimos
+            } else {
+              className = styles.middle; // Verde para o meio
+            }
 
             return (
-              <tr
-                key={time.posicao}
-                className={`${isTopFour ? styles.topFour : ''} ${isBottomFour ? styles.bottomFour : ''}`}
-              >
+              <tr key={time.posicao} className={className}>
                 <td>{time.posicao}</td>
                 <td>{time.time}</td>
                 <td>{time.pontos}</td>
