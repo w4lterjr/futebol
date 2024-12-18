@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+//import styles from "../styles/br"
 
 const classificacao = [
   { posicao: 1, time: "Palmeiras", pontos: 75 },
