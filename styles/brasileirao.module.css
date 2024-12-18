@@ -4,19 +4,22 @@
     margin-top: 20px;
   }
   
-  h1 {
+  .title {
     color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
   }
   
   .classificacao {
     width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .classificacao th,
   .classificacao td {
-    padding: 10px;
+    padding: 12px 20px;
     border: 1px solid #ddd;
     text-align: center;
   }
@@ -32,5 +35,23 @@
   
   .classificacao tr:hover {
     background-color: #ddd;
+  }
+  
+  .classificacao td {
+    font-size: 1.1rem;
+  }
+  
+  /* Estilos para os 4 primeiros times */
+  .topFour {
+    background-color: #1e90ff; /* Azul */
+    color: white;
+    font-size: 0.9rem; /* Fonte menor */
+  }
+  
+  /* Estilos para os 4 últimos times */
+  .bottomFour {
+    background-color: #ff6347; /* Vermelho */
+    color: white;
+    font-size: 0.9rem; /* Fonte menor */
   }
   

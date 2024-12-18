@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css';
-import styles from "../styles/brasileirao.module.css"
+import styles from '../styles/brasileirao.module.css';
 
 const classificacao = [
   { posicao: 1, time: "Palmeiras", pontos: 75 },
@@ -13,14 +12,23 @@ const classificacao = [
   { posicao: 8, time: "Athletico-PR", pontos: 58 },
   { posicao: 9, time: "Fortaleza", pontos: 55 },
   { posicao: 10, time: "Botafogo", pontos: 52 },
-  // Adicione outros times conforme necessário
+  { posicao: 11, time: "Vasco da Gama", pontos: 50 },
+  { posicao: 12, time: "Santos", pontos: 48 },
+  { posicao: 13, time: "Grêmio", pontos: 46 },
+  { posicao: 14, time: "Ceará", pontos: 45 },
+  { posicao: 15, time: "Cruzeiro", pontos: 43 },
+  { posicao: 16, time: "América-MG", pontos: 42 },
+  { posicao: 17, time: "Bahia", pontos: 40 },
+  { posicao: 18, time: "Goiás", pontos: 39 },
+  { posicao: 19, time: "Coritiba", pontos: 37 },
+  { posicao: 20, time: "Atlético-GO", pontos: 35 },
 ];
 
 function App() {
   return (
-    <div className="App">
-      <h1>Brasileirao</h1>
-      <table className="classificacao">
+    <div className={styles.App}>
+      <h1 className={styles.title}>Classificação do Campeonato Brasileiro</h1>
+      <table className={styles.classificacao}>
         <thead>
           <tr>
             <th>Posição</th>
@@ -29,13 +37,21 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {classificacao.map((time) => (
-            <tr key={time.posicao}>
-              <td>{time.posicao}</td>
-              <td>{time.time}</td>
-              <td>{time.pontos}</td>
-            </tr>
-          ))}
+          {classificacao.map((time) => {
+            const isTopFour = time.posicao <= 4;
+            const isBottomFour = time.posicao >= 17;
+
+            return (
+              <tr
+                key={time.posicao}
+                className={`${isTopFour ? styles.topFour : ''} ${isBottomFour ? styles.bottomFour : ''}`}
+              >
+                <td>{time.posicao}</td>
+                <td>{time.time}</td>
+                <td>{time.pontos}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
