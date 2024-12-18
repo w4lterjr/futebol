@@ -39,9 +39,11 @@ function App() {
         <tbody>
           {classificacao.map((time) => {
             let className = '';
-            
-            // Definindo as classes para os times
-            if (time.posicao <= 4) {
+
+            // Se for o primeiro time, aplica a classe 'firstPlace'
+            if (time.posicao === 1) {
+              className = styles.firstPlace; // Azul-dourado para o primeiro
+            } else if (time.posicao <= 4) {
               className = styles.topFour; // Azul para os 4 primeiros
             } else if (time.posicao >= 17) {
               className = styles.bottomFour; // Vermelho para os 4 últimos

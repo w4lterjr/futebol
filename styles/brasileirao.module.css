@@ -10,8 +10,9 @@
   }
   
   .classificacao {
-    width: 100%;
+    width: 300px; /* Define a largura fixa para a tabela */
     border-collapse: collapse;
+    margin-left: 20px; /* Alinha a tabela à esquerda */
   }
   
   .classificacao th, .classificacao td {
@@ -38,6 +39,13 @@
   
   .classificacao th {
     background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  /* Estilo para o primeiro time, azul-dourado */
+  .firstPlace {
+    background: linear-gradient(to top, #007bff, #ffd700); /* Azul-dourado */
+    color: white;
     font-weight: bold;
   }
   
