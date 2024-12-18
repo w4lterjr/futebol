@@ -1,67 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React from 'react';
+import './App.css';
 
-const ProximosJogosFlamengo = () => {
-  const [jogos, setJogos] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
+const classificacao = [
+  { posicao: 1, time: "Palmeiras", pontos: 75 },
+  { posicao: 2, time: "Flamengo", pontos: 70 },
+  { posicao: 3, time: "Atlético-MG", pontos: 68 },
+  { posicao: 4, time: "Fluminense", pontos: 64 },
+  { posicao: 5, time: "Internacional", pontos: 62 },
+  { posicao: 6, time: "São Paulo", pontos: 60 },
+  { posicao: 7, time: "Corinthians", pontos: 59 },
+  { posicao: 8, time: "Athletico-PR", pontos: 58 },
+  { posicao: 9, time: "Fortaleza", pontos: 55 },
+  { posicao: 10, time: "Botafogo", pontos: 52 },
+  // Adicione outros times conforme necessário
+];
 
-  const API_KEY = "9c58ca0dcc864d889351f2daeff19619"; // Substitua pela sua chave de API
-
-  useEffect(() => {
-    const fetchJogos = async () => {
-      try {
-        // Substitua o ID da competição para o Campeonato Brasileiro ou outra liga relevante
-        const resposta = await fetch("https://api.football-data.org/v4/competitions/BL1/matches", {
-          method: "GET",
-          headers: {
-            "X-Auth-Token": API_KEY, // Cabeçalho com a chave da API
-          },
-        });
-
-        const data = await resposta.json();
-        
-        // Filtra os jogos do Flamengo
-        const jogosFlamengo = data.matches.filter(
-          (jogo) =>
-            jogo.homeTeam.name === "Flamengo" || jogo.awayTeam.name === "Flamengo"
-        );
-
-        setJogos(jogosFlamengo);
-        setCarregando(false);
-      } catch (err) {
-        setErro("Erro ao carregar os jogos");
-        setCarregando(false);
-      }
-    };
-
-    fetchJogos();
-  }, []);
-
-  if (carregando) {
-    return <div>Carregando os próximos jogos...</div>;
-  }
-
-  if (erro) {
-    return <div>{erro}</div>;
-  }
-
+function App() {
   return (
-    <div>
-      <h1>Próximos Jogos do Flamengo</h1>
-      <ul>
-        {jogos.map((jogo, index) => {
-          const isFlamengoCasa = jogo.homeTeam.name === "Flamengo"; // Verifica se o Flamengo é o time da casa
-          const local = isFlamengoCasa ? "Em casa" : "Fora"; // Se for o time da casa ou visitante
-
-          return (
-            <li key={index}>
-              <strong>{jogo.utcDate}</strong> - {jogo.homeTeam.name} vs {jogo.awayTeam.name} ({local})
-            </li>
-          );
-        })}
-      </ul>
+    <div className="App">
+      <h1>Brasileirao</h1>
+      <table className="classificacao">
+        <thead>
+          <tr>
+            <th>Posição</th>
+            <th>Time</th>
+            <th>Pontos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {classificacao.map((time) => (
+            <tr key={time.posicao}>
+              <td>{time.posicao}</td>
+              <td>{time.time}</td>
+              <td>{time.pontos}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-};
+}
 
-export default ProximosJogosFlamengo;
+export default App;
