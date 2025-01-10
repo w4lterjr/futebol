@@ -34,6 +34,12 @@ function App() {
             <th>Posição</th>
             <th>Time</th>
             <th>Pontos</th>
+            <th>Vitorias</th>
+            <th>Saldo de gols</th>
+            <th>Gols Marcados</th>
+            <th>Confroto direto</th>
+            <th>Numero de cartoes</th>
+
           </tr>
         </thead>
         <tbody>
