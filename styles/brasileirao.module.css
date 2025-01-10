@@ -1,67 +1,83 @@
 .App {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  .title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  .classificacao {
-    width: 300px; /* Define a largura fixa para a tabela */
-    border-collapse: collapse;
-    margin-left: 20px; /* Alinha a tabela à esquerda */
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.classificacao {
+  width: 100%;
+  max-width: 800px; /* Tamanho máximo para a tabela */
+  margin: 0 auto; /* Centraliza a tabela na tela */
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave na tabela */
+}
+
+.classificacao th, .classificacao td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.classificacao th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.topFour {
+  background-color: #007bff; /* Azul para os 4 primeiros */
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.bottomFour {
+  background-color: #dc3545; /* Vermelho para os 4 últimos */
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.middle {
+  background-color: #28a745; /* Verde para o meio */
+  color: white;
+  font-weight: bold;
+}
+
+.firstPlace {
+  background: linear-gradient(to top, #007bff, #ffd700); /* Azul-dourado */
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.pontos {
+  font-size: 1.2rem; /* Tamanho maior para os pontos */
+  font-weight: bold;
+ 
+}
+
+.desempate {
+  font-style: italic; /* Aplica itálico */
+}
+
+/* Responsividade: Ajuste a tabela para telas pequenas */
+@media (max-width: 600px) {
   .classificacao th, .classificacao td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
+    font-size: 0.9rem;
+    padding: 8px;
   }
-  
-  .topFour {
-    background-color: #007bff; /* Azul para os 4 primeiros */
-    color: white;
-    font-weight: bold;
-    font-style: italic;
 
+  .title {
+    font-size: 1.5rem;
   }
-  
-  .bottomFour {
-    background-color: #dc3545; /* Vermelho para os 4 últimos */
-    color: white;
-    font-weight: bold;
-    font-style: italic;
-  }
-  
-  
-  .middle {
-    background-color: #28a745; /* Verde para o meio */
-    color: white;
-    font-weight: bold;
-  }
-  
-  
-  .classificacao th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-  
-  /* Estilo para o primeiro time, azul-dourado */
-  .firstPlace {
-    background: linear-gradient(to top, #007bff, #ffd700); /* Azul-dourado */
-    color: white;
-    font-weight: bold;
-    font-style: italic;
 
+  .classificacao {
+    width: 100%;
+    margin-left: 0;
   }
-  
-  .pontos {
-    font-size: 1.2rem; /* Altere o valor conforme necessário para aumentar ou diminuir o tamanho */
-    font-weight: bold; /* Opcional: deixa os pontos mais destacados */
-  }
-  .desempate {
-    font-style: italic; /* Aplica itálico */
-  }
+}

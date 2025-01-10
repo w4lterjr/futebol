@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from '../styles/brasileirao.module.css';
 
 const classificacao = [
@@ -24,7 +24,21 @@ const classificacao = [
   { posicao: 20, time: "Atlético-GO", pontos: 35, vitorias: 4, saldoGols: -18, golsMarcados: 28, confrontoDireto: "D", cartoes: 65 },
 ];
 
+const getClassName = (posicao) => {
+  if (posicao === 1) return styles.firstPlace; // Azul-dourado para o primeiro
+  if (posicao <= 4) return styles.topFour; // Azul para os 4 primeiros
+  if (posicao >= 17) return styles.bottomFour; // Vermelho para os 4 últimos
+  return styles.middle; // Verde para o meio
+};
+
 function App() {
+  const tabela = useMemo(() => {
+    return classificacao.map((time) => ({
+      ...time,
+      className: getClassName(time.posicao)
+    }));
+  }, []);
+
   return (
     <div className={styles.App}>
       <h1 className={styles.title}>Classificação do Campeonato Brasileiro</h1>
@@ -38,37 +52,22 @@ function App() {
             <th className={styles.desempate}>Saldo de Gols</th>
             <th className={styles.desempate}>Gols Marcados</th>
             <th className={styles.desempate}>Confronto Direto</th>
-            <th className={styles.desempate}>Numero de cartoes</th>
+            <th className={styles.desempate}>Número de Cartões</th>
           </tr>
         </thead>
         <tbody>
-          {classificacao.map((time) => {
-            let className = '';
-
-            // Se for o primeiro time, aplica a classe 'firstPlace'
-            if (time.posicao === 1) {
-              className = styles.firstPlace; // Azul-dourado para o primeiro
-            } else if (time.posicao <= 4) {
-              className = styles.topFour; // Azul para os 4 primeiros
-            } else if (time.posicao >= 17) {
-              className = styles.bottomFour; // Vermelho para os 4 últimos
-            } else {
-              className = styles.middle; // Verde para o meio
-            }
-
-            return (
-              <tr key={time.posicao} className={className}>
-                <td>{time.posicao}</td>
-                <td>{time.time}</td>
-                <td className={styles.pontos}>{time.pontos}</td>
-                <td className={styles.desempate}>{time.vitorias}</td> {/* Vitorias em itálico */}
-                <td className={styles.desempate}>{time.saldoGols}</td> {/* Saldo de gols em itálico */}
-                <td className={styles.desempate}>{time.golsMarcados}</td> {/* Gols Marcados em itálico */}
-                <td className={styles.desempate}>{time.confrontoDireto}</td> {/* Confronto Direto em itálico */}
-                <td className={styles.desempate}>{time.cartoes}</td> {/* Cartões em itálico */}
-              </tr>
-            );
-          })}
+          {tabela.map((time) => (
+            <tr key={time.posicao} className={time.className}>
+              <td>{time.posicao}</td>
+              <td>{time.time}</td>
+              <td className={styles.pontos}>{time.pontos}</td>
+              <td className={styles.desempate}>{time.vitorias}</td>
+              <td className={styles.desempate}>{time.saldoGols}</td>
+              <td className={styles.desempate}>{time.golsMarcados}</td>
+              <td className={styles.desempate}>{time.confrontoDireto}</td>
+              <td className={styles.desempate}>{time.cartoes}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
