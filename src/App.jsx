@@ -34,11 +34,11 @@ function App() {
             <th>Posição</th>
             <th>Time</th>
             <th>Pontos</th>
-            <th>Vitorias</th>
-            <th>Saldo de gols</th>
-            <th>Gols Marcados</th>
-            <th>Confronto direto</th>
-            <th>Numero de cartoes</th>
+            <th><i>Vitorias</i></th>
+            <th><i>Saldo de gols</i></th>
+            <th><i>Gols Marcados</i></th>
+            <th><i>Confronto direto</i></th>
+            <th><i>Numero de cartoes</i></th>
           </tr>
         </thead>
         <tbody>
@@ -61,11 +61,11 @@ function App() {
                 <td>{time.posicao}</td>
                 <td>{time.time}</td>
                 <td>{time.pontos}</td>
-                <td>{time.vitorias}</td>
-                <td>{time.saldoGols}</td>
-                <td>{time.golsMarcados}</td>
-                <td>{time.confrontoDireto}</td>
-                <td>{time.cartoes}</td>
+                <td><i>{time.vitorias}</i></td> {/* Vitorias em itálico */}
+                <td><i>{time.saldoGols}</i></td> {/* Saldo de gols em itálico */}
+                <td><i>{time.golsMarcados}</i></td> {/* Gols Marcados em itálico */}
+                <td><i>{time.confrontoDireto}</i></td> {/* Confronto Direto em itálico */}
+                <td><i>{time.cartoes}</i></td> {/* Cartões em itálico */}
               </tr>
             );
           })}
