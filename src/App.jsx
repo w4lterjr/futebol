@@ -34,11 +34,11 @@ function App() {
             <th>Posição</th>
             <th>Time</th>
             <th>Pontos</th>
-            <th><i>Vitorias</i></th>
-            <th><i>Saldo de gols</i></th>
-            <th><i>Gols Marcados</i></th>
-            <th><i>Confronto direto</i></th>
-            <th><i>Numero de cartoes</i></th>
+            <th className={styles.desempate}>Vitorias</th>
+            <th className={styles.desempate}>Saldo de Gols</th>
+            <th className={styles.desempate}>Gols Marcados</th>
+            <th className={styles.desempate}>Confronto Direto</th>
+            <th className={styles.desempate}>Numero de cartoes</th>
           </tr>
         </thead>
         <tbody>
@@ -60,12 +60,12 @@ function App() {
               <tr key={time.posicao} className={className}>
                 <td>{time.posicao}</td>
                 <td>{time.time}</td>
-                <td>{time.pontos}</td>
-                <td><i>{time.vitorias}</i></td> {/* Vitorias em itálico */}
-                <td><i>{time.saldoGols}</i></td> {/* Saldo de gols em itálico */}
-                <td><i>{time.golsMarcados}</i></td> {/* Gols Marcados em itálico */}
-                <td><i>{time.confrontoDireto}</i></td> {/* Confronto Direto em itálico */}
-                <td><i>{time.cartoes}</i></td> {/* Cartões em itálico */}
+                <td className={styles.pontos}>{time.pontos}</td>
+                <td className={styles.desempate}>{time.vitorias}</td> {/* Vitorias em itálico */}
+                <td className={styles.desempate}>{time.saldoGols}</td> {/* Saldo de gols em itálico */}
+                <td className={styles.desempate}>{time.golsMarcados}</td> {/* Gols Marcados em itálico */}
+                <td className={styles.desempate}>{time.confrontoDireto}</td> {/* Confronto Direto em itálico */}
+                <td className={styles.desempate}>{time.cartoes}</td> {/* Cartões em itálico */}
               </tr>
             );
           })}

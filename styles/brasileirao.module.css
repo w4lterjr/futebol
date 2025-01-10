@@ -58,3 +58,10 @@
 
   }
   
+  .pontos {
+    font-size: 1.2rem; /* Altere o valor conforme necessário para aumentar ou diminuir o tamanho */
+    font-weight: bold; /* Opcional: deixa os pontos mais destacados */
+  }
+  .desempate {
+    font-style: italic; /* Aplica itálico */
+  }
